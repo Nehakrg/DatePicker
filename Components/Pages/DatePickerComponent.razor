@@ -1,0 +1,40 @@
+﻿@page "/"
+<h3>DatePickerComponent</h3>
+<EditForm Model="searchCriteria" FormName="MyForm">
+    <FluentGrid Spacing="2" AdaptiveRendering="true" Justify="JustifyContent.Center" Style="width: 80%">
+        <FluentGridItem sm="4" md="2" Justify="JustifyContent.FlexEnd"><FluentLabel>Date Of Birth</FluentLabel></FluentGridItem>
+        <FluentGridItem sm="8" md="4">
+            <FluentDatePicker AriaLabel="Date Of Birth" Style="width:100%" @bind-Value="@searchCriteria.BirthDate" @bind-Value:after="@ValueChanged" DisabledDateFunc="@DisabledDate" />
+        </FluentGridItem>
+        <FluentGridItem xs="12" Justify="JustifyContent.Center">
+            <FluentButton Type="ButtonType.Submit" Name="Search" Style="height:50px; width:100px; padding:5px" OnClick="OnSearch" Appearance="Appearance.Accent" >Search</FluentButton>
+             </FluentGridItem>
+    </FluentGrid>
+</EditForm>
+
+<div>DOB: @searchCriteria.BirthDate</div>
+@code {
+    [SupplyParameterFromForm]
+    public SearchCriteria searchCriteria { get; set; } = new SearchCriteria();
+
+
+    public class SearchCriteria
+    {
+        public DateTime? BirthDate;
+
+    }
+    private void ValueChanged()
+    {
+        Console.WriteLine(searchCriteria.BirthDate.ToString());
+
+    }
+    private bool DisabledDate(DateTime date)
+    {
+        return (date > DateTime.Today);
+    }
+
+    private async Task OnSearch()
+    {
+        Console.WriteLine(searchCriteria.BirthDate.ToString());
+    }
+}
